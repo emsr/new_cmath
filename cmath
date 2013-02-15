@@ -1,0 +1,235 @@
+
+
+  inline float
+  chebyshev_tf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_t<float>(__n, __x); }
+
+  inline long double
+  chebyshev_tl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_t<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_t(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_t<__type>(__n, __x);
+    }
+
+
+  inline float
+  chebyshev_uf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_u<float>(__n, __x); }
+
+  inline long double
+  chebyshev_ul(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_u<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_u(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_u<__type>(__n, __x);
+    }
+
+
+  inline float
+  chebyshev_vf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_v<float>(__n, __x); }
+
+  inline long double
+  chebyshev_vl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_v<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_v(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_v<__type>(__n, __x);
+    }
+
+
+  inline float
+  chebyshev_uf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_u<float>(__n, __x); }
+
+  inline long double
+  chebyshev_ul(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_u<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_u(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_u<__type>(__n, __x);
+    }
+
+
+  inline float
+  cosintf(float __x)
+  { return __detail::__csint<float>(__x).first; }
+
+  inline long double
+  cosintl(long double __x)
+  { return __detail::__csint<long double>(__x).first; }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    cosint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__csint<__type>(__x).first;
+    }
+
+
+  inline float
+  sinintf(float __x)
+  { return __detail::__csint<float>(__x).second; }
+
+  inline long double
+  sinintl(long double __x)
+  { return __detail::__csint<long double>(__x).second; }
+
+  ///  5.2.1.23  Spherical sinint functions.
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    sinint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__csint<__type>(__x).second;
+    }
+
+
+  inline float
+  gegenbauerf(unsigned int __n, float __alpha, float __x)
+  { return __detail::__gegenbauer_poly<float>(__n, __alpha, __x); }
+
+  inline long double
+  gegenbauerl(unsigned int __n, long double __alpha, long double __x)
+  { return __detail::__gegenbauer_poly<long double>(__n, __alpha, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    gegenbauer(unsigned int __n, _Tp __alpha, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__gegenbauer_poly<__type>(__n, __alpha, __x);
+    }
+
+
+  inline float
+  jacobi_cnf(float __k, float __u)
+  {
+    float __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<float>(__k, __u, __cn, __sn, __dn);
+    return __cn;
+  }
+
+  inline long double
+  jacobi_cnl(long double __k, long double __u)
+  {
+    long double __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<long double>(__k, __u, __cn, __sn, __dn);
+    return __cn;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    jacobi_cn(_Tp __k, _Tp __u)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __cn, __sn, __dn;
+      __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
+      return __cn;
+    }
+
+
+  inline float
+  jacobi_snf(float __k, float __u)
+  {
+    float __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<float>(__k, __u, __cn, __sn, __dn);
+    return __sn;
+  }
+
+  inline long double
+  jacobi_snl(long double __k, long double __u)
+  {
+    long double __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<long double>(__k, __u, __cn, __sn, __dn);
+    return __sn;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    jacobi_sn(_Tp __k, _Tp __u)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __cn, __sn, __dn;
+      __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
+      return __sn;
+    }
+
+
+  inline float
+  jacobi_dnf(float __k, float __u)
+  {
+    float __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<float>(__k, __u, __cn, __sn, __dn);
+    return __dn;
+  }
+
+  inline long double
+  jacobi_dnl(long double __k, long double __u)
+  {
+    long double __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<long double>(__k, __u, __cn, __sn, __dn);
+    return __dn;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    jacobi_dn(_Tp __k, _Tp __u)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __cn, __sn, __dn;
+      __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
+      return __dn;
+    }
+
+
+  inline float
+  fresnel_cf(float __x)
+  { __detail::__fresnel<float>(__x).first; }
+
+  inline long double
+  fresnel_cl(long double __x)
+  { __detail::__fresnel<long double>(__x).first; }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    fresnel_c(_Tp __k, _Tp __u)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__fresnel<__type>(__x).first;
+    }
+
+
+  inline float
+  fresnel_sf(float __x)
+  { __detail::__fresnel<float>(__x).second; }
+
+  inline long double
+  fresnel_sl(long double __x)
+  { __detail::__fresnel<long double>(__x).second; }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    fresnel_s(_Tp __k, _Tp __u)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__fresnel<__type>(__x).second;
+    }

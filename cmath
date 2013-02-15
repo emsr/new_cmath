@@ -1,3 +1,9 @@
+#include "chebyshev.tcc"
+#include "fresnel.tcc"
+#include "gegenbauer.tcc"
+#include "hyper_integral.tcc"
+#include "jacobi.tcc"
+#include "trig_integral.tcc"
 
 
   inline float
@@ -52,19 +58,19 @@
 
 
   inline float
-  chebyshev_uf(unsigned int __n, float __x)
-  { return __detail::__chebyshev_u<float>(__n, __x); }
+  chebyshev_wf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_w<float>(__n, __x); }
 
   inline long double
-  chebyshev_ul(unsigned int __n, long double __x)
-  { return __detail::__chebyshev_u<long double>(__n, __x); }
+  chebyshev_wl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_w<long double>(__n, __x); }
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    chebyshev_u(unsigned int __n, _Tp __x)
+    chebyshev_w(unsigned int __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__chebyshev_u<__type>(__n, __x);
+      return __detail::__chebyshev_w<__type>(__n, __x);
     }
 
 
@@ -211,7 +217,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    fresnel_c(_Tp __k, _Tp __u)
+    fresnel_c(_Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__fresnel<__type>(__x).first;
@@ -228,7 +234,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    fresnel_s(_Tp __k, _Tp __u)
+    fresnel_s(_Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__fresnel<__type>(__x).second;

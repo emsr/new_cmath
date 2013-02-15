@@ -1,9 +1,6 @@
 
 
-#include <tr1/cmath>
-#include <complex>
-#include <stdexcept>
-
+namespace __detail {
 
 ///
 ///  @brief This routine computes the cosine @f$ Ci(x) @f$ and sine @f$ Si(x) @f$
@@ -11,7 +8,7 @@
 ///
 template<typename _Tp>
   void
-  __csint_cont_frac(_Tp __x, _Tp& __ci, _Tp& __si)
+  __csint_cont_frac(_Tp __t, _Tp& __ci, _Tp& __si)
   {
     const unsigned int __max_iter = 100;
     const _Tp __eps = _Tp(5) * std::numeric_limits<_Tp>::epsilon();
@@ -53,7 +50,7 @@ template<typename _Tp>
 ///
 template<typename _Tp>
   void
-  __csint_series(_Tp __x, _Tp& __ci, _Tp& __si)
+  __csint_series(_Tp __t, _Tp& __ci, _Tp& __si)
   {
     const unsigned int __max_iter = 100;
     const _Tp __eps = _Tp(5) * std::numeric_limits<_Tp>::epsilon();
@@ -126,16 +123,16 @@ template<typename _Tp>
   __csint(_Tp __x)
   {
     _Tp __t = std::abs(__x);
+    _Tp __ci, __si;
     if (__t == _Tp(0))
       {
         __ci = -std::numeric_limits<_Tp>::infinity();
         __si = _Tp(0);
-        return;
       }
-    if (__t > _Tp(2))
-      __csint_cont_frac(__x, __ci, __si);
+    else if (__t > _Tp(2))
+      __csint_cont_frac(__t, __ci, __si);
     else
-      __csint_series(__x, __ci, __si);
+      __csint_series(__t, __ci, __si);
 
     if (__x < _Tp(0))
       __si = -__si;
@@ -144,3 +141,4 @@ template<typename _Tp>
 }
 
 
+}

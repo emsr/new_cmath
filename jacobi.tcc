@@ -1,21 +1,21 @@
+#include <array>
 
 namespace __detail {
 
+
 template<typename _Tp>
   void
-  __jacobi_sncndn(_Tp __k, _Tp __u, _Tp& __cn, _Tp& __sn, _Tp& __dn)
+  __jacobi_cnsndn(_Tp __k, _Tp __u, _Tp& __cn, _Tp& __sn, _Tp& __dn)
   {
-    double __a, __b, __c, __d;
+    _Tp __a, __b, __c, __d;
     int l, bo;
 
     const unsigned int __N = 20;
-    const double __CA = 0.00001;
+    const _Tp __CA = 0.00001;
 
     std::array<_Tp, __N> __m;
     std::array<_Tp, __N> __n;
 
-    _Tp __k = __kk;
-    _Tp __u = __uu;
     if (__k != _Tp(0))
       {
         bool __bo = (__k < _Tp(0));
@@ -55,7 +55,7 @@ template<typename _Tp>
                 __a = __c / __b;
               }
             __a = _Tp(1) / std::sqrt(__c * __c + _Tp(1));
-            __sn = dsign(__a, __sn);
+            __sn = std::copysign(__a, __sn);
             __cn = __c * __sn;
           }
         if (__bo)

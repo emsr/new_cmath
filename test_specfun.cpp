@@ -1,15 +1,11 @@
-// ../bin/bin/g++ -o test_chebyshev test_chebyshev.cpp
+// ../bin/bin/g++ -std=c++11 -o test_specfun test_specfun.cpp
 
 
 #include <iostream>
 #include <iomanip>
 
 
-#include "chebyshev.tcc"
-#include "trig_integral.tcc"
-
-double ci(double x) { double c, s; __cisi(x, c, s); return c; }
-double si(double x) { double c, s; __cisi(x, c, s); return s; }
+#include "cmath"
 
 
 int
@@ -76,8 +72,8 @@ main()
     {
         double x = 0.01 * (i - 100);
         std::cout << std::setw(12) << x
-                  << std::setw(12) << ci(x)
-                  << std::setw(12) << si(x)
+                  << std::setw(12) << cosint(x)
+                  << std::setw(12) << sinint(x)
                   << std::endl;
     }
 }

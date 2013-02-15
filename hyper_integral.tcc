@@ -11,10 +11,10 @@
 ///         by continued fraction for positive argument.
 ///
 
-FIXME!!!!
+////FIXME!!!!
 template<typename _Tp>
   void
-  __chshint_cont_frac(_Tp __x, _Tp& __chi, _Tp& __shi)
+  __chshint_cont_frac(_Tp __t, _Tp& __chi, _Tp& __shi)
   {
     const unsigned int __max_iter = 100;
     const _Tp __eps = _Tp(5) * std::numeric_limits<_Tp>::epsilon();
@@ -56,7 +56,7 @@ template<typename _Tp>
 ///
 template<typename _Tp>
   void
-  __chshint_series(_Tp __x, _Tp& __chi, _Tp& __shi)
+  __chshint_series(_Tp __t, _Tp& __chi, _Tp& __shi)
   {
     const unsigned int __max_iter = 100;
     const _Tp __eps = _Tp(5) * std::numeric_limits<_Tp>::epsilon();
@@ -134,12 +134,11 @@ template<typename _Tp>
       {
         __chi = -std::numeric_limits<_Tp>::infinity();
         __shi = _Tp(0);
-        return;
       }
-    if (__t > _Tp(2))
-      __chshint_cont_frac(__x, __chi, __shi);
+    else if (__t > _Tp(2))
+      __chshint_cont_frac(__t, __chi, __shi);
     else
-      __chshint_series(__x, __chi, __shi);
+      __chshint_series(__t, __chi, __shi);
 
     if (__x < _Tp(0))
       __shi = -__shi;

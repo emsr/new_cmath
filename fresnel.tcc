@@ -1,4 +1,9 @@
 #include <limits>
+#include <complex>
+#include <stdexcept>
+
+
+namespace __detail {
 
     ///
     ///  @brief This routine returns the Fresnel cosine and sine integrals
@@ -151,3 +156,4 @@
       return std::make_pair(__c, __s);
     }
 
+}

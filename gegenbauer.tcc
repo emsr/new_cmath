@@ -12,12 +12,11 @@ template<typename _Tp>
     if (__n == 1)
       return __c1;
 
-    const _Tp __ninv = _Tp(1) / __n;
     _Tp __c(0);
     for (unsigned int __nn = 2; __nn <= __n; ++__nn)
       {
-        __c = __ninv * (_Tp(2) * (_Tp(__nn) - _Tp(1) + __alpha) * __x * __c1
-                         - (_Tp(__nn) - _Tp(2) + _Tp(2) * __alpha) * __c0);
+        __c = (_Tp(2) * (_Tp(__nn) - _Tp(1) + __alpha) * __x * __c1
+                    - (_Tp(__nn) - _Tp(2) + _Tp(2) * __alpha) * __c0) / _Tp(__nn);
         __c0 = __c1;
         __c1 = __c;
       }

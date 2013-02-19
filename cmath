@@ -110,6 +110,23 @@
 
 
   inline float
+  jacobif(unsigned __n, float __alpha, float __beta, float __x)
+  { return __detail::__poly_jacobi<float>(__n, __alpha, __beta, __x); }
+
+  inline long double
+  jacobil(unsigned __n, long double __alpha, long double __beta, long double __x)
+  { return __detail::__poly_jacobi<long double>(__n, __alpha, __beta, __x); }
+
+  template<typename _Talpha, typename _Tbeta, typename _Tp>
+    inline typename __gnu_cxx::__promote3<_Talpha, _Tbeta, _Tp>::__type
+    jacobi(unsigned n, _Talpha alpha, _Tbeta beta, _Tp x)
+    {
+      typedef typename __gnu_cxx::__promote3<_Talpha, _Tbeta, _Tp>::__type __type;
+      return __detail::__poly_jacobi<__type>(__n, __alpha, __beta, __x);
+    }
+
+
+  inline float
   gegenbauerf(unsigned int __n, float __alpha, float __x)
   { return __detail::__gegenbauer_poly<float>(__n, __alpha, __x); }
 
@@ -117,11 +134,11 @@
   gegenbauerl(unsigned int __n, long double __alpha, long double __x)
   { return __detail::__gegenbauer_poly<long double>(__n, __alpha, __x); }
 
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    gegenbauer(unsigned int __n, _Tp __alpha, _Tp __x)
+  template<typename _Talpha, typename _Tp>
+    inline typename __gnu_cxx::__promote2<_Talpha, _Tp>::__type
+    gegenbauer(unsigned int __n, _Talpha __alpha, _Tp __x)
     {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      typedef typename __gnu_cxx::__promote2<_Talpha, _Tp>::__type __type;
       return __detail::__gegenbauer_poly<__type>(__n, __alpha, __x);
     }
 
@@ -142,11 +159,11 @@
     return __cn;
   }
 
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
+  template<typename _Tk, typename _Tu>
+    inline typename __gnu_cxx::__promote2<_Tk, _Tu>::__type
     jacobi_cn(_Tp __k, _Tp __u)
     {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      typedef typename __gnu_cxx::__promote2<_Tk, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __cn;
@@ -169,11 +186,11 @@
     return __sn;
   }
 
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
+  template<typename _Tk, typename _Tu>
+    inline typename __gnu_cxx::__promote2<_Tk, _Tu>::__type
     jacobi_sn(_Tp __k, _Tp __u)
     {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      typedef typename __gnu_cxx::__promote2<_Tk, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __sn;
@@ -196,11 +213,11 @@
     return __dn;
   }
 
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    jacobi_dn(_Tp __k, _Tp __u)
+  template<typename _Tk, typename _Tu>
+    inline typename __gnu_cxx::__promote<_Tk, _Tu>::__type
+    jacobi_dn(_Tk __k, _Tu __u)
     {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      typedef typename __gnu_cxx::__promote2<_Tp, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __dn;

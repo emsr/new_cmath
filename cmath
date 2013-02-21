@@ -10,74 +10,67 @@
 #include "jacobi_poly.tcc"
 #include "trig_integral.tcc"
 
+#include "dawson_integral.tcc"
+#include "beta.tcc"
+
+
+  //  cardinal sine
 
   inline float
-  chebyshev_tf(unsigned int __n, float __x)
-  { return __detail::__chebyshev_t<float>(__n, __x); }
+  sincf(float __x)
+  {
+    if (__isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else
+      return __x == 0.0F ? 1.0F : std::sinf(__x) / __x;
+  }
 
   inline long double
-  chebyshev_tl(unsigned int __n, long double __x)
-  { return __detail::__chebyshev_t<long double>(__n, __x); }
+  sincl(long double __x)
+  {
+    if (__isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else
+      return __x == 0.0L ? 1.0L : std::sinl(__x) / __x;
+  }
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    chebyshev_t(unsigned int __n, _Tp __x)
+    sinc(_Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__chebyshev_t<__type>(__n, __x);
+      if (__isnan(__x))
+        return std::numeric_limits<__type>::quiet_NaN();
+      else
+        return __type(__x) == __type(0)
+             ? __type(1)
+             : std::sin(__type(__x)) / __type(__x);
     }
 
 
+  //  logarithmic integral
+
+
+  //  sine integral
+
   inline float
-  chebyshev_uf(unsigned int __n, float __x)
-  { return __detail::__chebyshev_u<float>(__n, __x); }
+  sinintf(float __x)
+  { return __detail::__csint<float>(__x).second; }
 
   inline long double
-  chebyshev_ul(unsigned int __n, long double __x)
-  { return __detail::__chebyshev_u<long double>(__n, __x); }
+  sinintl(long double __x)
+  { return __detail::__csint<long double>(__x).second; }
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    chebyshev_u(unsigned int __n, _Tp __x)
+    sinint(_Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__chebyshev_u<__type>(__n, __x);
+      return __detail::__csint<__type>(__x).second;
     }
 
 
-  inline float
-  chebyshev_vf(unsigned int __n, float __x)
-  { return __detail::__chebyshev_v<float>(__n, __x); }
-
-  inline long double
-  chebyshev_vl(unsigned int __n, long double __x)
-  { return __detail::__chebyshev_v<long double>(__n, __x); }
-
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    chebyshev_v(unsigned int __n, _Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__chebyshev_v<__type>(__n, __x);
-    }
-
-
-  inline float
-  chebyshev_wf(unsigned int __n, float __x)
-  { return __detail::__chebyshev_w<float>(__n, __x); }
-
-  inline long double
-  chebyshev_wl(unsigned int __n, long double __x)
-  { return __detail::__chebyshev_w<long double>(__n, __x); }
-
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    chebyshev_w(unsigned int __n, _Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__chebyshev_w<__type>(__n, __x);
-    }
-
+  //  cosine integral
 
   inline float
   cosintf(float __x)
@@ -96,67 +89,15 @@
     }
 
 
-  inline float
-  sinintf(float __x)
-  { return __detail::__csint<float>(__x).second; }
-
-  inline long double
-  sinintl(long double __x)
-  { return __detail::__csint<long double>(__x).second; }
-
-  ///  5.2.1.23  Spherical sinint functions.
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    sinint(_Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__csint<__type>(__x).second;
-    }
+  //  hyperbolic sine integral
 
 
-  inline float
-  jacobif(unsigned __n, float __alpha, float __beta, float __x)
-  { return __detail::__poly_jacobi<float>(__n, __alpha, __beta, __x); }
 
-  inline long double
-  jacobil(unsigned __n, long double __alpha, long double __beta, long double __x)
-  { return __detail::__poly_jacobi<long double>(__n, __alpha, __beta, __x); }
-
-  template<typename _Talpha, typename _Tbeta, typename _Tp>
-    inline typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type
-    jacobi(unsigned __n, _Talpha __alpha, _Tbeta __beta, _Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type __type;
-      return __detail::__poly_jacobi<__type>(__n, __alpha, __beta, __x);
-    }
+  //  hyperbolic cosine integral
 
 
-  inline float
-  jacobi_cnf(float __k, float __u)
-  {
-    float __cn, __sn, __dn;
-    __detail::__jacobi_cnsndn<float>(__k, __u, __cn, __sn, __dn);
-    return __cn;
-  }
 
-  inline long double
-  jacobi_cnl(long double __k, long double __u)
-  {
-    long double __cn, __sn, __dn;
-    __detail::__jacobi_cnsndn<long double>(__k, __u, __cn, __sn, __dn);
-    return __cn;
-  }
-
-  template<typename _Tk, typename _Tu>
-    inline typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type
-    jacobi_cn(_Tk __k, _Tu __u)
-    {
-      typedef typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type __type;
-      __type __cn, __sn, __dn;
-      __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
-      return __cn;
-    }
-
+  //  Jacobi elliptic sn function
 
   inline float
   jacobi_snf(float __k, float __u)
@@ -185,6 +126,37 @@
     }
 
 
+  //  Jacobi elliptic cn function
+
+  inline float
+  jacobi_cnf(float __k, float __u)
+  {
+    float __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<float>(__k, __u, __cn, __sn, __dn);
+    return __cn;
+  }
+
+  inline long double
+  jacobi_cnl(long double __k, long double __u)
+  {
+    long double __cn, __sn, __dn;
+    __detail::__jacobi_cnsndn<long double>(__k, __u, __cn, __sn, __dn);
+    return __cn;
+  }
+
+  template<typename _Tk, typename _Tu>
+    inline typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type
+    jacobi_cn(_Tk __k, _Tu __u)
+    {
+      typedef typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type __type;
+      __type __cn, __sn, __dn;
+      __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
+      return __cn;
+    }
+
+
+  //  Jacobi elliptic dn function
+
   inline float
   jacobi_dnf(float __k, float __u)
   {
@@ -212,22 +184,7 @@
     }
 
 
-  inline float
-  fresnel_cf(float __x)
-  { __detail::__fresnel<float>(__x).first; }
-
-  inline long double
-  fresnel_cl(long double __x)
-  { __detail::__fresnel<long double>(__x).first; }
-
-  template<typename _Tp>
-    inline typename __gnu_cxx::__promote<_Tp>::__type
-    fresnel_c(_Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
-      return __detail::__fresnel<__type>(__x).first;
-    }
-
+  //  Fresnel sine integral
 
   inline float
   fresnel_sf(float __x)
@@ -246,6 +203,205 @@
     }
 
 
+  //  Fresnel cosine integral
+
+  inline float
+  fresnel_cf(float __x)
+  { return __detail::__fresnel<float>(__x).first; }
+
+  inline long double
+  fresnel_cl(long double __x)
+  { return __detail::__fresnel<long double>(__x).first; }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    fresnel_c(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__fresnel<__type>(__x).first;
+    }
+
+
+  //  Airy function of the first kind
+
+  inline float
+  airy_aif(float __x)
+  {
+    float __Ai, __Bi, __Aip, __Bip;
+    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    return __Ai;
+  }
+
+  inline long double
+  airy_ail(long double __x)
+  {
+    long double __Ai, __Bi, __Aip, __Bip;
+    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    return __Ai;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    airy_ai(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __Ai, __Bi, __Aip, __Bip;
+      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      return __Ai;
+    }
+
+
+  //  Airy function of the second kind
+
+  inline float
+  airy_bif(float __x)
+  {
+    float __Ai, __Bi, __Aip, __Bip;
+    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    return __Bi;
+  }
+
+  inline long double
+  airy_bil(long double __x)
+  {
+    long double __Ai, __Bi, __Aip, __Bip;
+    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    return __Bi;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    airy_bi(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __Ai, __Bi, __Aip, __Bip;
+      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      return __Bi;
+    }
+
+
+  //  upper incomplete gamma function
+
+
+
+  //  lower incomplete gamma function
+
+
+
+  //  upper Pochhammer symbol
+
+
+
+
+  //  lower Pochhammer symbol
+
+
+
+  //  confluent hypergeometric functions *** using the TR1 notation!!! ***
+
+
+
+  //  ordinary hypergeometric functions *** using the TR1 notation!!! ***
+
+
+
+  //  Chebyshev polynomials of the \ufb01rst kind
+
+  inline float
+  chebyshev_tf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_t<float>(__n, __x); }
+
+  inline long double
+  chebyshev_tl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_t<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_t(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_t<__type>(__n, __x);
+    }
+
+
+  //  Chebyshev polynomials of the second kind
+
+  inline float
+  chebyshev_uf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_u<float>(__n, __x); }
+
+  inline long double
+  chebyshev_ul(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_u<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_u(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_u<__type>(__n, __x);
+    }
+
+
+  //  Chebyshev polynomials of the third kind
+
+  inline float
+  chebyshev_vf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_v<float>(__n, __x); }
+
+  inline long double
+  chebyshev_vl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_v<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_v(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_v<__type>(__n, __x);
+    }
+
+
+  //  Chebyshev polynomials of the fourth kind
+
+  inline float
+  chebyshev_wf(unsigned int __n, float __x)
+  { return __detail::__chebyshev_w<float>(__n, __x); }
+
+  inline long double
+  chebyshev_wl(unsigned int __n, long double __x)
+  { return __detail::__chebyshev_w<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    chebyshev_w(unsigned int __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__chebyshev_w<__type>(__n, __x);
+    }
+
+
+  //  Jacobi polynomials
+
+  inline float
+  jacobif(unsigned __n, float __alpha, float __beta, float __x)
+  { return __detail::__poly_jacobi<float>(__n, __alpha, __beta, __x); }
+
+  inline long double
+  jacobil(unsigned __n, long double __alpha, long double __beta, long double __x)
+  { return __detail::__poly_jacobi<long double>(__n, __alpha, __beta, __x); }
+
+  template<typename _Talpha, typename _Tbeta, typename _Tp>
+    inline typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type
+    jacobi(unsigned __n, _Talpha __alpha, _Tbeta __beta, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type __type;
+      return __detail::__poly_jacobi<__type>(__n, __alpha, __beta, __x);
+    }
+
+
+  //  Gegenbauer polynomials
+
   inline float
   gegenbauerf(unsigned int __n, float __alpha, float __x)
   { return __detail::__gegenbauer_poly<float>(__n, __alpha, __x); }
@@ -262,6 +418,8 @@
       return __detail::__gegenbauer_poly<__type>(__n, __alpha, __x);
     }
 
+
+  //  Zernike polynomials
 
   float
   zernikef(unsigned int __n, int __m, float __rho, float __phi)
@@ -283,6 +441,8 @@
     }
 
 
+  //  radial polynomials
+
   inline float
   radpolyf(unsigned int __n, unsigned int __m, float __rho)
   { return __detail::__poly_radial_jacobi(__n, __m, __rho); }
@@ -298,4 +458,24 @@
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__poly_radial_jacobi<__type>(__n, __m, __rho);
     }
+
+
+  //  *** Added by me!!! *** Dawson's integral
+
+
+
+  //  *** Added by me!!! *** upper incomplete beta function
+
+
+
+  //  *** Added by me!!! *** lower incomplete beta function
+
+
+
+  //  *** Added by me!!! *** modified spherical Bessel function of the first kind
+
+
+
+  //  *** Added by me!!! *** modified spherical Bessel function of the second kind
+
 

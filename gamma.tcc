@@ -1,66 +1,99 @@
+// Special functions -*- C++ -*-
 
+// Copyright (C) 2013 Free Software Foundation, Inc.
+//
+// This file is part of the GNU ISO C++ Library.  This library is free
+// software; you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 3, or (at your option)
+// any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// Under Section 7 of GPL version 3, you are granted additional
+// permissions described in the GCC Runtime Library Exception, version
+// 3.1, as published by the Free Software Foundation.
+
+// You should have received a copy of the GNU General Public License and
+// a copy of the GCC Runtime Library Exception along with this program;
+// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+// <http://www.gnu.org/licenses/>.
+
+/** @file tbd/gamma.tcc
+ *  This is an internal header file, included by other library headers.
+ *  Do not attempt to use it directly. @headername{tbd/cmath}
+ */
+
+#ifndef _GLIBCXX_GAMMA_TCC
+#define _GLIBCXX_GAMMA_TCC 1
+
+
+///  We'll pull this into the main (TR1) gamma.tcc ultimately.
 
 namespace __detail {
 
 
 template<typename _Tp>
   _Tp
-  __gamma_p(_Tp a, _Tp x)
+  __gamma_p(_Tp __a, _Tp __x)
   {
-    if (x < 0.0 || a <= 0.0)
+    if (__x < 0.0 || __a <= 0.0)
       throw std::domain_error("Invalid arguments in routine gamma_p()");
 
-    if (x < (a + 1.0))
-      return __gamma_series(a, x).first;
+    if (__x < __a + _Tp(1))
+      return __gamma_series(__a, __x).first;
     else
-      return 1.0 - __gamma_cont_frac(a, x).first;
+      return _Tp(1) - __gamma_cont_frac(__a, __x).first;
   }
 
 
 template<typename _Tp>
   _Tp
-  __gamma_q(_Tp a, _Tp x)
+  __gamma_q(_Tp __a, _Tp __x)
   {
-    if (x < 0.0 || a <= 0.0)
+    if (__x < 0.0 || __a <= 0.0)
       throw std::domain_error("Invalid arguments in routine gamma_q().");
 
-    if (x < (a + 1.0))
-      return 1.0 - __gamma_series(a, x).first;
+    if (__x < a + _Tp(1))
+      return _Tp(1) - __gamma_series(__a, __x).first;
     else
-      return __gamma_cont_frac(a, x).first;
+      return __gamma_cont_frac(__a, __x).first;
   }
 
 
 template<typename _Tp>
   std::pair<_Tp, _Tp>
-  __gamma_series(_Tp a, _Tp x)
+  __gamma_series(_Tp __a, _Tp __x)
   {
-    const double EPS = 3.0e-7;
-    const unsigned int ITMAX = 100;
+    const double __EPS = 3.0e-7;
+    const unsigned int __ITMAX = 100;
 
-    _Tp lngam = ln_gamma(a);
+    _Tp __lngam = ln_gamma(__a);
 
-    if (x < _Tp(0))
+    if (__x < _Tp(0))
       throw std::domain_error("Argument less than 0 in routine gamma_series().");
-    else if (x == _Tp(0))
-      return std::make_pair(_Tp(0), lngam);
+    else if (__x == _Tp(0))
+      return std::make_pair(_Tp(0), __lngam);
     else
       {
-        _Tp ap = a;
-        _Tp del, sum;
-        del = sum = _Tp(1) / a;
-        for (unsigned int n = 1; n <= ITMAX; n++)
+        _Tp __ap = __a;
+        _Tp __del, __sum;
+        __del = __sum = _Tp(1) / __a;
+        for (unsigned int __n = 1; __n <= __ITMAX; ++__n)
           {
-            ap += _Tp(1);
-            del *= x / ap;
-            sum += del;
-            if (std::abs(del) < EPS * std::abs(sum))
+            __ap += _Tp(1);
+            __del *= __x / __ap;
+            __sum += __del;
+            if (std::abs(__del) < __EPS * std::abs(__sum))
               {
-                _Tp gamser = sum * std::exp(-x + a * std::log(x) - lngam);
-                return std::make_pair(gamser, lngam);
+                _Tp __gamser = __sum * std::exp(-__x + __a * std::log(__x) - __lngam);
+                return std::make_pair(__gamser, __lngam);
               }
           }
-        throw std::logic_error("a too large, ITMAX too small in routine gamma_series().");
+        throw std::logic_error("__gamma_series: a too large, ITMAX too small in routine.");
       }
   }
 
@@ -78,29 +111,30 @@ template<typename _Tp>
     _Tp a0(1), b0(0);
     for (unsigned int n = 1; n <= ITMAX; ++n)
       {
-        _Tp an(n);
-        _Tp ana = an - a;
-        _Tp a0 = (a1 + a0 * ana) * fact;
-        _Tp b0 = (b1 + b0 * ana) * fact;
-        _Tp anf = an * fact;
-        a1 = x * a0 + anf * a1;
-        _Tp b1 = x * b0 + anf * b1;
-        if (a1 != _Tp(0))
+        _Tp __an(__n);
+        _Tp __ana = __an - __a;
+        _Tp __a0 = (__a1 + __a0 * __ana) * __fact;
+        _Tp __b0 = (__b1 + __b0 * __ana) * __fact;
+        _Tp __anfact = __an * __fact;
+        __a1 =__ x * __a0 + __anfact * __a1;
+        _Tp __b1 = __x * __b0 + __anfact * __b1;
+        if (__a1 != _Tp(0))
           {
 
-            fact = _Tp(1) / a1;
-            _Tp g = b1 * fact;
-            if (std::abs(g - gold) / g < EPS)
+            __fact = _Tp(1) / __a1;
+            _Tp __g = __b1 * __fact;
+            if (std::abs(__g - __gprev) / __g < __EPS)
               {
-
-                _Tp gamcf = std::exp(-x + a * std::log(x) - lngam) * g;
-                return std::make_pair(gamcf, lngam);
+                _Tp __gamcf = std::exp(-__x + __a * std::log(__x) - __lngam) * __g;
+                return std::make_pair(__gamcf, __lngam);
               }
-            gold = g;
+            __gprev = __g;
           }
       }
-    throw std::logic_error("a too large, ITMAX too small in routine gamma_cont_fraction.");
+    throw std::logic_error("__gamma_cont_fraction: a too large, ITMAX too small in routine.");
   }
 
 
 }
+
+#endif // _GLIBCXX_GAMMA_TCC

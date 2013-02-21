@@ -1,8 +1,13 @@
+
+#include <tr1/cmath>
+
 #include "chebyshev.tcc"
 #include "fresnel.tcc"
+#include "gamma.tcc"
 #include "gegenbauer.tcc"
 #include "hyper_integral.tcc"
 #include "jacobi.tcc"
+#include "jacobi_poly.tcc"
 #include "trig_integral.tcc"
 
 
@@ -118,28 +123,11 @@
   { return __detail::__poly_jacobi<long double>(__n, __alpha, __beta, __x); }
 
   template<typename _Talpha, typename _Tbeta, typename _Tp>
-    inline typename __gnu_cxx::__promote3<_Talpha, _Tbeta, _Tp>::__type
-    jacobi(unsigned n, _Talpha alpha, _Tbeta beta, _Tp x)
+    inline typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type
+    jacobi(unsigned __n, _Talpha __alpha, _Tbeta __beta, _Tp __x)
     {
-      typedef typename __gnu_cxx::__promote3<_Talpha, _Tbeta, _Tp>::__type __type;
+      typedef typename __gnu_cxx::__promote_3<_Talpha, _Tbeta, _Tp>::__type __type;
       return __detail::__poly_jacobi<__type>(__n, __alpha, __beta, __x);
-    }
-
-
-  inline float
-  gegenbauerf(unsigned int __n, float __alpha, float __x)
-  { return __detail::__gegenbauer_poly<float>(__n, __alpha, __x); }
-
-  inline long double
-  gegenbauerl(unsigned int __n, long double __alpha, long double __x)
-  { return __detail::__gegenbauer_poly<long double>(__n, __alpha, __x); }
-
-  template<typename _Talpha, typename _Tp>
-    inline typename __gnu_cxx::__promote2<_Talpha, _Tp>::__type
-    gegenbauer(unsigned int __n, _Talpha __alpha, _Tp __x)
-    {
-      typedef typename __gnu_cxx::__promote2<_Talpha, _Tp>::__type __type;
-      return __detail::__gegenbauer_poly<__type>(__n, __alpha, __x);
     }
 
 
@@ -160,10 +148,10 @@
   }
 
   template<typename _Tk, typename _Tu>
-    inline typename __gnu_cxx::__promote2<_Tk, _Tu>::__type
-    jacobi_cn(_Tp __k, _Tp __u)
+    inline typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type
+    jacobi_cn(_Tk __k, _Tu __u)
     {
-      typedef typename __gnu_cxx::__promote2<_Tk, _Tu>::__type __type;
+      typedef typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __cn;
@@ -187,10 +175,10 @@
   }
 
   template<typename _Tk, typename _Tu>
-    inline typename __gnu_cxx::__promote2<_Tk, _Tu>::__type
-    jacobi_sn(_Tp __k, _Tp __u)
+    inline typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type
+    jacobi_sn(_Tk __k, _Tu __u)
     {
-      typedef typename __gnu_cxx::__promote2<_Tk, _Tu>::__type __type;
+      typedef typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __sn;
@@ -214,10 +202,10 @@
   }
 
   template<typename _Tk, typename _Tu>
-    inline typename __gnu_cxx::__promote<_Tk, _Tu>::__type
+    inline typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type
     jacobi_dn(_Tk __k, _Tu __u)
     {
-      typedef typename __gnu_cxx::__promote2<_Tp, _Tu>::__type __type;
+      typedef typename __gnu_cxx::__promote_2<_Tk, _Tu>::__type __type;
       __type __cn, __sn, __dn;
       __detail::__jacobi_cnsndn<__type>(__k, __u, __cn, __sn, __dn);
       return __dn;
@@ -256,3 +244,58 @@
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__fresnel<__type>(__x).second;
     }
+
+
+  inline float
+  gegenbauerf(unsigned int __n, float __alpha, float __x)
+  { return __detail::__gegenbauer_poly<float>(__n, __alpha, __x); }
+
+  inline long double
+  gegenbauerl(unsigned int __n, long double __alpha, long double __x)
+  { return __detail::__gegenbauer_poly<long double>(__n, __alpha, __x); }
+
+  template<typename _Talpha, typename _Tp>
+    inline typename __gnu_cxx::__promote_2<_Talpha, _Tp>::__type
+    gegenbauer(unsigned int __n, _Talpha __alpha, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote_2<_Talpha, _Tp>::__type __type;
+      return __detail::__gegenbauer_poly<__type>(__n, __alpha, __x);
+    }
+
+
+  float
+  zernikef(unsigned int __n, int __m, float __rho, float __phi)
+  { return __detail::__poly_radial_jacobi(__n, std::abs(__m), __rho)
+         * (__m >= 0 ? std::cos(__m * __phi) : std::sin(__m * __phi)); }
+
+  long double
+  zernikel(unsigned int __n, int __m, long double __rho, long double __phi)
+  { return __detail::__poly_radial_jacobi(__n, std::abs(__m), __rho)
+         * (__m >= 0 ? std::cos(__m * __phi) : std::sin(__m * __phi)); }
+
+  template<typename _Trho, typename _Tphi>
+    inline typename __gnu_cxx::__promote_2<_Trho, _Tphi>::__type
+    zernike(unsigned int __n, int __m, _Trho __rho, _Tphi __phi)
+    {
+      typedef typename __gnu_cxx::__promote_2<_Trho, _Tphi>::__type __type;
+      return __detail::__poly_radial_jacobi<__type>(__n, std::abs(__m), __rho)
+           * (__m >= 0 ? std::cos(__m * __phi) : std::sin(__m * __phi));
+    }
+
+
+  inline float
+  radpolyf(unsigned int __n, unsigned int __m, float __rho)
+  { return __detail::__poly_radial_jacobi(__n, __m, __rho); }
+
+  inline long double
+  radpolyl(unsigned int __n, unsigned int __m, long double __rho)
+  { return __detail::__poly_radial_jacobi(__n, __m, __rho); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    radpoly(unsigned int __n, unsigned int __m, double __rho)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__poly_radial_jacobi<__type>(__n, __m, __rho);
+    }
+

@@ -6,29 +6,52 @@ template<typename _Tp>
   _Tp
   __poly_jacobi(unsigned int __n, _Tp __alpha, _Tp __beta, _Tp __x)
   {
-    _Tp __pm1 = _Tp(1);
+    _Tp __pm2 = _Tp(1);
     if (__n == 0)
-      return pm1;
+      return __pm2;
 
     _Tp __apb = __alpha + __beta;
-    _Tp __p = (__alpha - __beta + (_Tp(2) + __apb) * x) / _Tp(2);
+    _Tp __amb = __alpha - __beta;
+    _Tp __pm1 = (__amb + (_Tp(2) + __apb) * __x) / _Tp(2);
     if (__n == 1)
-      return __p;
+      return __pm1;
 
-    for (unsigned int __j = 1; __j < __n; ++__j )
+    _Tp __p(0);
+    for (unsigned int __j = 2; __j < __n; ++__j )
       {
-        _Tp __c = _Tp(2) * _Tp(__j + 1) * (_Tp(__j + 1) + __apb) * (_Tp(2) * __j + __apb);
-        _Tp __d = (_Tp(2) * __j + __apb + _Tp(1)) * (__alpha * __alpha - __beta * __beta);
-        _Tp __e = (_Tp(2) * __j + __apb) * (_Tp(2) * __j + __apb + _Tp(1)) * (_Tp(2) * __j + __apb + _Tp(2));
-        _Tp __f = _Tp(2) * (__j + __alpha) * (__j + __beta) * (_Tp(2) * __j + __apb + _Tp(2));
+        _Tp __japb = _Tp(__j) + __apb;
+        _Tp __japb1 = __japb + _Tp(1);
+        _Tp __japb2 = __japb1 + _Tp(1);
+        _Tp __c = _Tp(2) * _Tp(__j + 1) * __japb * __japb1;
+        _Tp __d = (__japb1) * __apb * __amb;
+        _Tp __e = __japb * __japb1 * __japb2;
+        _Tp __f = _Tp(2) * (__j + __alpha) * (__j + __beta) * __japb2;
 
         if (__c == _Tp(0))
           throw std::logic_error("Error in __poly_jacobi.");
-        _Tp __pp1 = ((__d + __e * __x) * __p - __f * __pm1) / __c;
+        __p = ((__d + __e * __x) * __pm1 - __f * __pm2) / __c;
+        __pm2 = __pm1;
         __pm1 = __p;
-        __p = __pp1;
       }
     return __p;
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __poly_radial_jacobi(unsigned int __n, unsigned int __m, _Tp __rho)
+  {
+    if (__m > __n)
+      throw std::range_error("__poly_radial_jacobi");
+    else if ((__n - __m) % 2 == 1)
+      return _Tp(0);
+    else
+      {
+        unsigned __k = (__n - __m) / 2;
+        return (__k % 2 == 0 ? 1 : -1) * std::pow(__rho, __m)
+             * __poly_jacobi(__k, _Tp(__m), _Tp(0),
+                             _Tp(1) - _Tp(2) * __rho * __rho);
+      }
   }
 
 

@@ -76,5 +76,20 @@ main()
                   << std::setw(12) << sinint(x)
                   << std::endl;
     }
+
+    for (int j = 0; j <= 5; ++j)
+    {
+        double k = j * 1.0;
+	std::cout << std::endl;
+	for (int i = 0; i <= 200; ++i)
+	{
+            double u = 0.01 * (i - 100);
+            std::cout << std::setw(12) << u
+                      << std::setw(12) << jacobi_cn(k, u)
+                      << std::setw(12) << jacobi_sn(k, u)
+                      << std::setw(12) << jacobi_dn(k, u)
+                      << std::endl;
+	}
+    }
 }
 

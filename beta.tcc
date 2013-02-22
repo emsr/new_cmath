@@ -59,8 +59,8 @@ template<typename _Tp>
                 / ((__am1 + __2em) * (__a + __2em));
         _Tp __ap = __az + __d * __am;
         _Tp __bp = __bz + __d * __bm;
-        _Tp __d = -(__a + __em) * (__apb + __em) * __x
-                / ((__ap1 + __2em) * (__a + __2em));
+        __d = -(__a + __em) * (__apb + __em) * __x
+            / ((__ap1 + __2em) * (__a + __2em));
         _Tp __app = __ap + __d * __az;
         _Tp __bpp = __bp + __d * __bz;
         _Tp __azprev = __az;
@@ -82,17 +82,18 @@ template<typename _Tp>
     if (__isnan(__x) || __isnan(__a) || __isnan(__b))
       return std::numeric_limits<_Tp>::quiet_NaN();
 
-    if (__x < __Tp(0) || __x > _Tp(1))
+    if (__x < _Tp(0) || __x > _Tp(1))
       throw std::domain_error("__beta_inc: x out of range");
 
     _Tp __fact;
-    if (__x == __Tp(0) || __x == _Tp(1))
+    if (__x == _Tp(0) || __x == _Tp(1))
       __fact = _Tp(0);
     else
-      __fact = std::exp(gamma_log(__a + __b) - gamma_log(__a) - gamma_log(__b)
+      __fact = std::exp(std::lgamma(__a + __b)
+                      - std::lgamma(__a) - std::lgamma(__b)
                       + __a * std::log(__x) + __b * std::log(_Tp(1) - __x));
 
-    if (__x < () / ())
+    if (__x < (__a + _Tp(1)) / (__a + __b + _Tp(2)))
       return __fact * __beta_inc_cont_frac(__a, __b, __x) / __a;
     else
       return _Tp(1) - __fact * __beta_inc_cont_frac(__b, __a, _Tp(1) - __x) / __b;

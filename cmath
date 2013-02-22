@@ -20,7 +20,7 @@
   sincf(float __x)
   {
     if (__isnan(__x))
-      return std::numeric_limits<_Tp>::quiet_NaN();
+      return std::numeric_limits<float>::quiet_NaN();
     else
       return __x == 0.0F ? 1.0F : std::sinf(__x) / __x;
   }
@@ -29,7 +29,7 @@
   sincl(long double __x)
   {
     if (__isnan(__x))
-      return std::numeric_limits<_Tp>::quiet_NaN();
+      return std::numeric_limits<long double>::quiet_NaN();
     else
       return __x == 0.0L ? 1.0L : std::sinl(__x) / __x;
   }
@@ -228,7 +228,7 @@
   airy_aif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -236,7 +236,7 @@
   airy_ail(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -246,7 +246,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      return std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Ai;
     }
 
@@ -257,7 +257,7 @@
   airy_bif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -265,7 +265,7 @@
   airy_bil(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -275,7 +275,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      return std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Bi;
     }
 

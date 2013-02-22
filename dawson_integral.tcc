@@ -40,7 +40,7 @@ template<typename _Tp>
   __dawson_series(_Tp __x)
   {
     //  Use series expansion.
-    _Tp __x2 = __x *__ x;
+    _Tp __x2 = __x * __x;
     _Tp __ans = __x * (_Tp(1) - (_Tp(2)/_Tp(3)) * __x2
                     * (_Tp(1) - (_Tp(2)/_Tp(5)) * __x2
                     * (_Tp(1) - (_Tp(2)/_Tp(7)) * __x2)));
@@ -55,7 +55,7 @@ template<typename _Tp>
     static const _Tp __sqrtpi(1.7724538509055160272981674833411452L);
     static const _Tp __1_sqrtpi(0.5641895835477562869480794515607726L);
     static const _Tp __H(0.2);
-    static const unsigned int __n_max = 10
+    static const unsigned int __n_max = 10;
     static _Tp __c[__n_max + 1];
     static bool __init = false;
     if (! __init)
@@ -70,7 +70,7 @@ template<typename _Tp>
 
     //  Use sampling theorem representation.
     _Tp __xx = std::abs(__x);
-    unsigned int n0 = 2 * static_cast<int>(0.5L + 0.5L * __xx / __H);
+    unsigned int __n0 = 2 * static_cast<int>(0.5L + 0.5L * __xx / __H);
     _Tp __xp = __xx - __n0 * __H;
     _Tp __e1 = std::exp(_Tp(2) * __xp * __H);
     _Tp __e2 = __e1 * __e1;
@@ -93,7 +93,7 @@ template<typename _Tp>
   _Tp
   __dawson(_Tp __x)
   {
-    const _Tp __x_min(0.4L);
+    const _Tp __x_min(0.2L);
 
     if (__isnan(__x))
       return std::numeric_limits<_Tp>::quiet_NaN();

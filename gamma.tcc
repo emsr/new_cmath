@@ -57,7 +57,7 @@ template<typename _Tp>
     if (__x < 0.0 || __a <= 0.0)
       throw std::domain_error("Invalid arguments in routine gamma_q().");
 
-    if (__x < a + _Tp(1))
+    if (__x < __a + _Tp(1))
       return _Tp(1) - __gamma_series(__a, __x).first;
     else
       return __gamma_cont_frac(__a, __x).first;
@@ -68,8 +68,8 @@ template<typename _Tp>
   std::pair<_Tp, _Tp>
   __gamma_series(_Tp __a, _Tp __x)
   {
-    const double __EPS = 3.0e-7;
-    const unsigned int __ITMAX = 100;
+    const double __eps = 3.0e-7;
+    const unsigned int __itmax = 100;
 
     _Tp __lngam = ln_gamma(__a);
 
@@ -82,12 +82,12 @@ template<typename _Tp>
         _Tp __ap = __a;
         _Tp __del, __sum;
         __del = __sum = _Tp(1) / __a;
-        for (unsigned int __n = 1; __n <= __ITMAX; ++__n)
+        for (unsigned int __n = 1; __n <= __itmax; ++__n)
           {
             __ap += _Tp(1);
             __del *= __x / __ap;
             __sum += __del;
-            if (std::abs(__del) < __EPS * std::abs(__sum))
+            if (std::abs(__del) < __eps * std::abs(__sum))
               {
                 _Tp __gamser = __sum * std::exp(-__x + __a * std::log(__x) - __lngam);
                 return std::make_pair(__gamser, __lngam);
@@ -100,30 +100,29 @@ template<typename _Tp>
 
 template<typename _Tp>
   std::pair<_Tp, _Tp>
-  __gamma_cont_frac(_Tp a, _Tp x)
+  __gamma_cont_frac(_Tp __a, _Tp __x)
   {
-    const _Tp EPS = 3.0e-7;
-    const unsigned int ITMAX = 100;
+    const _Tp __eps = 3.0e-7;
+    const unsigned int __itmax = 100;
 
-    _Tp lngam = ln_gamma(a);
-    _Tp a1 = x;
-    _Tp gold(0), fact(1), b1(1);
-    _Tp a0(1), b0(0);
-    for (unsigned int n = 1; n <= ITMAX; ++n)
+    _Tp __lngam = ln_gamma(__a);
+    _Tp __a1 = __x, __b1(1);
+    _Tp __gprev(0), __fact(1);
+    _Tp __a0(1), __b0(0);
+    for (unsigned int __n = 1; __n <= __itmax; ++__n)
       {
-        _Tp __an(__n);
-        _Tp __ana = __an - __a;
-        _Tp __a0 = (__a1 + __a0 * __ana) * __fact;
-        _Tp __b0 = (__b1 + __b0 * __ana) * __fact;
-        _Tp __anfact = __an * __fact;
-        __a1 =__ x * __a0 + __anfact * __a1;
-        _Tp __b1 = __x * __b0 + __anfact * __b1;
+        _Tp __xn(__n);
+        _Tp __xnma = __xn - __a;
+        __a0 = (__a1 + __a0 * __xnma) * __fact;
+        __b0 = (__b1 + __b0 * __xnma) * __fact;
+        _Tp __xnfact = __xn * __fact;
+        __a1 = __x * __a0 + __xnfact * __a1;
+        __b1 = __x * __b0 + __xnfact * __b1;
         if (__a1 != _Tp(0))
           {
-
             __fact = _Tp(1) / __a1;
             _Tp __g = __b1 * __fact;
-            if (std::abs(__g - __gprev) / __g < __EPS)
+            if (std::abs(__g - __gprev) / __g < __eps)
               {
                 _Tp __gamcf = std::exp(-__x + __a * std::log(__x) - __lngam) * __g;
                 return std::make_pair(__gamcf, __lngam);
@@ -135,6 +134,74 @@ template<typename _Tp>
   }
 
 
-}
+template<typename _Tp>
+  _Tp
+  __log_pochhammer_u(_Tp __n, _Tp __x)
+  {
+    if (__isnan(__n) || __isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__n == _Tp(0))
+      return _Tp(0);
+    else
+      return std::lgamma(__x + __n) - std::lgamma(__x);
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __pochhammer_u(_Tp __n, _Tp __x)
+  {
+    static const _Tp __log10(2.3025850929940456840179914546843642L);
+    if (__isnan(__n) || __isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__n == _Tp(0))
+      return _Tp(1);
+    else
+      {
+        _Tp __logpoch = std::lgamma(__x + __n) - std::lgamma(__x);
+        if (std::abs(__logpoch)
+            > std::numeric_limits<_Tp>::max_digits10 * __log10)
+          return std::numeric_limits<_Tp>::infinity();
+        else
+          return std::exp(__logpoch);
+      }
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __log_pochhammer_l(_Tp __n, _Tp __x)
+  {
+    if (__isnan(__n) || __isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__n == _Tp(0))
+      return _Tp(0);
+    else
+      return std::lgamma(__x + 1) - std::lgamma(__x - __n + 1);
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __pochhammer_l(_Tp __n, _Tp __x)
+  {
+    static const _Tp __log10(2.3025850929940456840179914546843642L);
+    if (__isnan(__n) || __isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__n == _Tp(0))
+      return _Tp(1);
+    else
+      {
+        _Tp __logpoch = std::lgamma(__x + 1) - std::lgamma(__x - __n + 1);
+        if (std::abs(__logpoch)
+            > std::numeric_limits<_Tp>::max_digits10 * __log10)
+          return std::numeric_limits<_Tp>::infinity();
+        else
+          return std::exp(__logpoch);
+      }
+  }
+
+
+} // namespace __detail
 
 #endif // _GLIBCXX_GAMMA_TCC

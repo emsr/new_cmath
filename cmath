@@ -20,18 +20,18 @@
   sincf(float __x)
   {
     if (__isnan(__x))
-      return std::numeric_limits<_Tp>::quiet_NaN();
+      return std::numeric_limits<float>::quiet_NaN();
     else
-      return __x == 0.0F ? 1.0F : std::sinf(__x) / __x;
+      return __x == 0.0F ? 1.0F : std::sin/*f*/(__x) / __x;
   }
 
   inline long double
   sincl(long double __x)
   {
     if (__isnan(__x))
-      return std::numeric_limits<_Tp>::quiet_NaN();
+      return std::numeric_limits<long double>::quiet_NaN();
     else
-      return __x == 0.0L ? 1.0L : std::sinl(__x) / __x;
+      return __x == 0.0L ? 1.0L : std::sin/*l*/(__x) / __x;
   }
 
   template<typename _Tp>
@@ -228,7 +228,7 @@
   airy_aif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -236,7 +236,7 @@
   airy_ail(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -246,7 +246,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Ai;
     }
 
@@ -257,7 +257,7 @@
   airy_bif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -265,7 +265,7 @@
   airy_bil(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -275,7 +275,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      return __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Bi;
     }
 
@@ -290,11 +290,40 @@
 
   //  upper Pochhammer symbol
 
+  inline float
+  pochhammer_uf(float __n, float __x)
+  { return __detail::__pochhammer_u<float>(__n, __x); }
 
+  inline long double
+  pochhammer_ul(long double __n, long double __x)
+  { return __detail::__pochhammer_u<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    pochhammer_u(double __n, double __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__pochhammer_u<__type>(__n, __x);
+    }
 
 
   //  lower Pochhammer symbol
 
+  inline float
+  pochhammer_lf(float __n, float __x)
+  { return __detail::__pochhammer_l<float>(__n, __x); }
+
+  inline long double
+  pochhammer_ll(long double __n, long double __x)
+  { return __detail::__pochhammer_l<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    pochhammer_l(double __n, double __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__pochhammer_l<__type>(__n, __x);
+    }
 
 
   //  confluent hypergeometric functions *** using the TR1 notation!!! ***
@@ -462,6 +491,22 @@
 
   //  *** Added by me!!! *** Dawson's integral
 
+  inline float
+  dawsonintf(float __x)
+  { return __detail::__dawson<float>(__x); }
+
+  inline long double
+  dawsonintl(long double __x)
+  { return __detail::__dawson<long double>(__x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    dawsonint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__dawson<__type>(__x);
+    }
+
 
 
   //  *** Added by me!!! *** upper incomplete beta function
@@ -477,5 +522,43 @@
 
 
   //  *** Added by me!!! *** modified spherical Bessel function of the second kind
+
+
+  //  *** Added by me!!! *** log upper Pochhammer symbol
+
+  inline float
+  lpochhammer_uf(float __n, float __x)
+  { return __detail::__log_pochhammer_u<float>(__n, __x); }
+
+  inline long double
+  lpochhammer_ul(long double __n, long double __x)
+  { return __detail::__log_pochhammer_u<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    lpochhammer_u(double __n, double __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__log_pochhammer_u<__type>(__n, __x);
+    }
+
+
+  //  *** Added by me!!! *** log lower Pochhammer symbol
+
+  inline float
+  lpochhammer_lf(float __n, float __x)
+  { return __detail::__log_pochhammer_l<float>(__n, __x); }
+
+  inline long double
+  lpochhammer_ll(long double __n, long double __x)
+  { return __detail::__log_pochhammer_l<long double>(__n, __x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    lpochhammer_l(double __n, double __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__log_pochhammer_l<__type>(__n, __x);
+    }
 
 

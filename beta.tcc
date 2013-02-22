@@ -101,7 +101,8 @@ template<typename _Tp>
     if (__x == _Tp(0) || __x == _Tp(1))
       __fact = _Tp(0);
     else
-      __fact = std::exp(gamma_log(__a + __b) - gamma_log(__a) - gamma_log(__b)
+      __fact = std::exp(std::lgamma(__a + __b)
+                      - std::lgamma(__a) - std::lgamma(__b)
                       + __a * std::log(__x) + __b * std::log(_Tp(1) - __x));
 
     if (__x < (__a + _Tp(1)) / (__a + __b + _Tp(2)))

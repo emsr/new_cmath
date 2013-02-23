@@ -1,5 +1,8 @@
 
 #include <tr1/cmath>
+using std::tr1::__detail::__numeric_constants;
+using std::tr1::__detail::__bessel_jn;
+using std::tr1::__detail::__bessel_ik;
 
 #include "chebyshev.tcc"
 #include "fresnel.tcc"
@@ -9,9 +12,9 @@
 #include "jacobi.tcc"
 #include "jacobi_poly.tcc"
 #include "trig_integral.tcc"
-
+#include "modified_bessel_func.tcc"
 #include "dawson_integral.tcc"
-#include "beta.tcc"
+#include "beta_function.tcc"
 
 
   //  cardinal sine
@@ -228,7 +231,7 @@
   airy_aif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -236,7 +239,7 @@
   airy_ail(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Ai;
   }
 
@@ -246,7 +249,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Ai;
     }
 
@@ -257,7 +260,7 @@
   airy_bif(float __x)
   {
     float __Ai, __Bi, __Aip, __Bip;
-    std::tr1::__detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
+    __detail::__airy<float>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -265,7 +268,7 @@
   airy_bil(long double __x)
   {
     long double __Ai, __Bi, __Aip, __Bip;
-    std::tr1::__detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
+    __detail::__airy<long double>(__x, __Ai, __Bi, __Aip, __Bip);
     return __Bi;
   }
 
@@ -275,7 +278,7 @@
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __Ai, __Bi, __Aip, __Bip;
-      std::tr1::__detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
+      __detail::__airy<__type>(__x, __Ai, __Bi, __Aip, __Bip);
       return __Bi;
     }
 
@@ -300,7 +303,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    pochhammer_u(double __n, double __x)
+    pochhammer_u(_Tp __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__pochhammer_u<__type>(__n, __x);
@@ -319,7 +322,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    pochhammer_l(double __n, double __x)
+    pochhammer_l(_Tp __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__pochhammer_l<__type>(__n, __x);
@@ -509,19 +512,72 @@
 
 
 
-  //  *** Added by me!!! *** upper incomplete beta function
-
-
-
-  //  *** Added by me!!! *** lower incomplete beta function
+  //  *** Added by me!!! *** incomplete beta function
 
 
 
   //  *** Added by me!!! *** modified spherical Bessel function of the first kind
 
+  inline float
+  sph_bessel_if(unsigned int __n, float __x)
+  {
+    float __i_n, __k_n, __ip_n, __kp_n;
+    std::tr1::__detail::__sph_bessel_ik<float>(__n, __x,
+					       __i_n, __k_n, __ip_n, __kp_n);
+    return __i_n;
+  }
+
+  inline long double
+  sph_bessel_il(unsigned int __n, long double __x)
+  {
+    long double __i_n, __k_n, __ip_n, __kp_n;
+    std::tr1::__detail::__sph_bessel_ik<long double>(__n, __x,
+						  __i_n, __k_n, __ip_n, __kp_n);
+    return __i_n;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    sph_bessel_i(unsigned int __n, double __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __i_n, __k_n, __ip_n, __kp_n;
+      std::tr1::__detail::__sph_bessel_ik<__type>(__n, __x,
+						  __i_n, __k_n, __ip_n, __kp_n);
+      return __i_n;
+    }
 
 
   //  *** Added by me!!! *** modified spherical Bessel function of the second kind
+
+  inline float
+  sph_bessel_kf(float __n, float __x)
+  {
+    float __i_n, __k_n, __ip_n, __kp_n;
+    std::tr1::__detail::__sph_bessel_ik<float>(__n, __x,
+					       __i_n, __k_n, __ip_n, __kp_n);
+    return __k_n;
+  }
+
+  inline long double
+  sph_bessel_kl(long double __n, long double __x)
+  {
+    long double __i_n, __k_n, __ip_n, __kp_n;
+    std::tr1::__detail::__sph_bessel_ik<long double>(__n, __x,
+						  __i_n, __k_n, __ip_n, __kp_n);
+    return __k_n;
+  }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    sph_bessel_k(_Tp __n, _Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      __type __i_n, __k_n, __ip_n, __kp_n;
+      std::tr1::__detail::__sph_bessel_ik<__type>(__n, __x,
+						  __i_n, __k_n, __ip_n, __kp_n);
+      return __k_n;
+    }
 
 
   //  *** Added by me!!! *** log upper Pochhammer symbol
@@ -536,7 +592,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    lpochhammer_u(double __n, double __x)
+    lpochhammer_u(_Tp __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__log_pochhammer_u<__type>(__n, __x);
@@ -555,7 +611,7 @@
 
   template<typename _Tp>
     inline typename __gnu_cxx::__promote<_Tp>::__type
-    lpochhammer_l(double __n, double __x)
+    lpochhammer_l(_Tp __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       return __detail::__log_pochhammer_l<__type>(__n, __x);

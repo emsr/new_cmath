@@ -27,8 +27,8 @@
  *  Do not attempt to use it directly. @headername{tbd/cmath}
  */
 
-#ifndef _GLIBCXX_BETA_TCC
-#define _GLIBCXX_BETA_TCC 1
+#ifndef _GLIBCXX_BETA_FUNCTION_TCC
+#define _GLIBCXX_BETA_FUNCTION_TCC 1
 
 
 ///  We'll pull this into the main (TR1) beta.tcc ultimately.
@@ -114,4 +114,4 @@ template<typename _Tp>
 
 } // __detail
 
-#endif // _GLIBCXX_BETA_TCC
+#endif // _GLIBCXX_BETA_FUNCTION_TCC

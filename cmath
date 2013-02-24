@@ -15,6 +15,7 @@ using std::tr1::__detail::__bessel_ik;
 #include "modified_bessel_func.tcc"
 #include "dawson_integral.tcc"
 #include "beta_function.tcc"
+#include "exp_integral.tcc"
 
 
   //  cardinal sine
@@ -52,6 +53,22 @@ using std::tr1::__detail::__bessel_ik;
 
 
   //  logarithmic integral
+
+  inline float
+  logintf(float __x)
+  { return __detail::__logint<float>(__x); }
+
+  inline long double
+  logintl(long double __x)
+  { return __detail::__logint<long double>(__x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    logint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__logint<__type>(__x);
+    }
 
 
   //  sine integral

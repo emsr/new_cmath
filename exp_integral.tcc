@@ -47,6 +47,30 @@ template<typename _Tp>
   }
 
 
+template<typename _Tp>
+  _Tp
+  __coshint(const _Tp __x)
+  {
+    if (__isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else
+      return (std::tr1::__detail::__expint_Ei(__x)
+            - std::tr1::__detail::__expint_E1(__x)) / _Tp(2);
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __sinhint(const _Tp __x)
+  {
+    if (__isnan(__x))
+      return std::numeric_limits<_Tp>::quiet_NaN();
+    else
+      return (std::tr1::__detail::__expint_Ei(__x)
+            + std::tr1::__detail::__expint_E1(__x)) / _Tp(2);
+  }
+
+
 } // namespace __detail
 
 #endif // _GLIBCXX_ELL_INTEGRAL_TCC

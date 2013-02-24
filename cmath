@@ -111,10 +111,40 @@ using std::tr1::__detail::__bessel_ik;
 
   //  hyperbolic sine integral
 
+  inline float
+  sinhintf(float __x)
+  { return __detail::__sinhint<float>(__x); }
+
+  inline long double
+  sinhintl(long double __x)
+  { return __detail::__sinhint<long double>(__x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    sinhint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__sinhint<__type>(__x);
+    }
 
 
   //  hyperbolic cosine integral
 
+  inline float
+  coshintf(float __x)
+  { return __detail::__coshint<float>(__x); }
+
+  inline long double
+  coshintl(long double __x)
+  { return __detail::__coshint<long double>(__x); }
+
+  template<typename _Tp>
+    inline typename __gnu_cxx::__promote<_Tp>::__type
+    coshint(_Tp __x)
+    {
+      typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
+      return __detail::__coshint<__type>(__x);
+    }
 
 
   //  Jacobi elliptic sn function

@@ -342,7 +342,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    gamma_u(_Tp __n, _Tp __x)
+    gamma_u(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__gamma_p<__type>(__n, __x);
@@ -361,7 +361,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    gamma_l(_Tp __n, _Tp __x)
+    gamma_l(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__gamma_q<__type>(__n, __x);
@@ -380,7 +380,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    pochhammer_u(_Tp __n, _Tp __x)
+    pochhammer_u(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__pochhammer_u<__type>(__n, __x);
@@ -399,7 +399,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    pochhammer_l(_Tp __n, _Tp __x)
+    pochhammer_l(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__pochhammer_l<__type>(__n, __x);
@@ -599,8 +599,8 @@ using std::tr1::__detail::__bessel_ik;
   sph_bessel_if(unsigned int __n, float __x)
   {
     float __i_n, __k_n, __ip_n, __kp_n;
-    std::tr1::__detail::__sph_bessel_ik<float>(__n, __x,
-					       __i_n, __k_n, __ip_n, __kp_n);
+    __detail::__sph_bessel_ik<float>(__n, __x,
+        			     __i_n, __k_n, __ip_n, __kp_n);
     return __i_n;
   }
 
@@ -608,8 +608,8 @@ using std::tr1::__detail::__bessel_ik;
   sph_bessel_il(unsigned int __n, long double __x)
   {
     long double __i_n, __k_n, __ip_n, __kp_n;
-    std::tr1::__detail::__sph_bessel_ik<long double>(__n, __x,
-						  __i_n, __k_n, __ip_n, __kp_n);
+    __detail::__sph_bessel_ik<long double>(__n, __x,
+        				__i_n, __k_n, __ip_n, __kp_n);
     return __i_n;
   }
 
@@ -619,8 +619,8 @@ using std::tr1::__detail::__bessel_ik;
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __i_n, __k_n, __ip_n, __kp_n;
-      std::tr1::__detail::__sph_bessel_ik<__type>(__n, __x,
-						  __i_n, __k_n, __ip_n, __kp_n);
+      __detail::__sph_bessel_ik<__type>(__n, __x,
+        				__i_n, __k_n, __ip_n, __kp_n);
       return __i_n;
     }
 
@@ -631,8 +631,8 @@ using std::tr1::__detail::__bessel_ik;
   sph_bessel_kf(unsigned int __n, float __x)
   {
     float __i_n, __k_n, __ip_n, __kp_n;
-    std::tr1::__detail::__sph_bessel_ik<float>(__n, __x,
-					       __i_n, __k_n, __ip_n, __kp_n);
+    __detail::__sph_bessel_ik<float>(__n, __x,
+        			     __i_n, __k_n, __ip_n, __kp_n);
     return __k_n;
   }
 
@@ -640,8 +640,8 @@ using std::tr1::__detail::__bessel_ik;
   sph_bessel_kl(unsigned int __n, long double __x)
   {
     long double __i_n, __k_n, __ip_n, __kp_n;
-    std::tr1::__detail::__sph_bessel_ik<long double>(__n, __x,
-						  __i_n, __k_n, __ip_n, __kp_n);
+    __detail::__sph_bessel_ik<long double>(__n, __x,
+        				__i_n, __k_n, __ip_n, __kp_n);
     return __k_n;
   }
 
@@ -651,8 +651,8 @@ using std::tr1::__detail::__bessel_ik;
     {
       typedef typename __gnu_cxx::__promote<_Tp>::__type __type;
       __type __i_n, __k_n, __ip_n, __kp_n;
-      std::tr1::__detail::__sph_bessel_ik<__type>(__n, __x,
-						  __i_n, __k_n, __ip_n, __kp_n);
+      __detail::__sph_bessel_ik<__type>(__n, __x,
+        				__i_n, __k_n, __ip_n, __kp_n);
       return __k_n;
     }
 
@@ -669,7 +669,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    lpochhammer_u(_Tp __n, _Tp __x)
+    lpochhammer_u(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__log_pochhammer_u<__type>(__n, __x);
@@ -688,7 +688,7 @@ using std::tr1::__detail::__bessel_ik;
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
-    lpochhammer_l(_Tp __n, _Tp __x)
+    lpochhammer_l(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
       return __detail::__log_pochhammer_l<__type>(__n, __x);

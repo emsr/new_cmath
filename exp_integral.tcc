@@ -27,8 +27,8 @@
  *  Do not attempt to use it directly. @headername{tr1/cmath}
  */
 
-#ifndef _GLIBCXX_ELL_INTEGRAL_TCC
-#define _GLIBCXX_ELL_INTEGRAL_TCC 1
+#ifndef _GLIBCXX_EXP_INTEGRAL_TCC
+#define _GLIBCXX_EXP_INTEGRAL_TCC 1
 
 
 namespace __detail {
@@ -426,4 +426,4 @@ template<typename _Tp>
 
 } // namespace __detail
 
-#endif // _GLIBCXX_ELL_INTEGRAL_TCC
+#endif // _GLIBCXX_EXP_INTEGRAL_TCC

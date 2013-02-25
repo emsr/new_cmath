@@ -53,6 +53,8 @@ template<typename _Tp>
   {
     if (__isnan(__x))
       return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__x == _Tp(0))
+      return _Tp(0);
     else
       return (std::tr1::__detail::__expint_Ei(__x)
             - std::tr1::__detail::__expint_E1(__x)) / _Tp(2);

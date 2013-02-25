@@ -60,8 +60,8 @@ template<typename _Tp>
         __c = __b + __a / __c;
         std::complex<_Tp> __del = __c * __d;
         __h *= __del;
-        if (std::abs(__del.real() - _Tp(1))
-          + std::abs(__del.imag()) < __eps)
+std::cout << __b << " " << __d << " " << __c << " " << __del << " " << __h << std::endl;
+        if (std::abs(__del - _Tp(1)) < __eps)
           break;
         if (i > __max_iter)
           throw std::logic_error("Continued fraction evaluation failed in __cisi.");

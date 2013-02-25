@@ -37,41 +37,13 @@ namespace __detail {
 
 
 template<typename _Tp>
-  _Tp
-  __gamma_p(_Tp __a, _Tp __x)
-  {
-    if (__x < 0.0 || __a <= 0.0)
-      throw std::domain_error("Invalid arguments in routine gamma_p()");
-
-    if (__x < __a + _Tp(1))
-      return __gamma_series(__a, __x).first;
-    else
-      return _Tp(1) - __gamma_cont_frac(__a, __x).first;
-  }
-
-
-template<typename _Tp>
-  _Tp
-  __gamma_q(_Tp __a, _Tp __x)
-  {
-    if (__x < 0.0 || __a <= 0.0)
-      throw std::domain_error("Invalid arguments in routine gamma_q().");
-
-    if (__x < __a + _Tp(1))
-      return _Tp(1) - __gamma_series(__a, __x).first;
-    else
-      return __gamma_cont_frac(__a, __x).first;
-  }
-
-
-template<typename _Tp>
   std::pair<_Tp, _Tp>
   __gamma_series(_Tp __a, _Tp __x)
   {
     const double __eps = 3.0e-7;
     const unsigned int __itmax = 100;
 
-    _Tp __lngam = ln_gamma(__a);
+    _Tp __lngam = std::lgamma(__a);
 
     if (__x < _Tp(0))
       throw std::domain_error("Argument less than 0 in routine gamma_series().");
@@ -105,7 +77,7 @@ template<typename _Tp>
     const _Tp __eps = 3.0e-7;
     const unsigned int __itmax = 100;
 
-    _Tp __lngam = ln_gamma(__a);
+    _Tp __lngam = std::lgamma(__a);
     _Tp __a1 = __x, __b1(1);
     _Tp __gprev(0), __fact(1);
     _Tp __a0(1), __b0(0);
@@ -131,6 +103,34 @@ template<typename _Tp>
           }
       }
     throw std::logic_error("__gamma_cont_fraction: a too large, ITMAX too small in routine.");
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __gamma_p(_Tp __a, _Tp __x)
+  {
+    if (__x < 0.0 || __a <= 0.0)
+      throw std::domain_error("Invalid arguments in routine gamma_p()");
+
+    if (__x < __a + _Tp(1))
+      return __gamma_series(__a, __x).first;
+    else
+      return _Tp(1) - __gamma_cont_frac(__a, __x).first;
+  }
+
+
+template<typename _Tp>
+  _Tp
+  __gamma_q(_Tp __a, _Tp __x)
+  {
+    if (__x < 0.0 || __a <= 0.0)
+      throw std::domain_error("Invalid arguments in routine gamma_q().");
+
+    if (__x < __a + _Tp(1))
+      return _Tp(1) - __gamma_series(__a, __x).first;
+    else
+      return __gamma_cont_frac(__a, __x).first;
   }
 
 

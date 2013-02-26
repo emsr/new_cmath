@@ -117,8 +117,8 @@ template<typename _Tp>
   std::pair<_Tp, _Tp>
   __gamma_series(_Tp __a, _Tp __x)
   {
-    const double __eps = 3.0e-7;
-    const unsigned int __itmax = 100;
+    const double __eps = 3.0 * std::numeric_limits<_Tp>::epsilon();
+    const unsigned int __itmax = 10 * (10 + std::sqrt(std::abs(__a)));
 
     _Tp __lngam = std::lgamma(__a);
 
@@ -128,21 +128,21 @@ template<typename _Tp>
       return std::make_pair(_Tp(0), __lngam);
     else
       {
-        _Tp __ap = __a;
-        _Tp __del, __sum;
-        __del = __sum = _Tp(1) / __a;
+        _Tp __aa = __a;
+        _Tp __term, __sum;
+        __term = __sum = _Tp(1) / __a;
         for (unsigned int __n = 1; __n <= __itmax; ++__n)
           {
-            __ap += _Tp(1);
-            __del *= __x / __ap;
-            __sum += __del;
-            if (std::abs(__del) < __eps * std::abs(__sum))
+            __aa += _Tp(1);
+            __term *= __x / __aa;
+            __sum += __term;
+            if (std::abs(__term) < __eps * std::abs(__sum))
               {
-                _Tp __gamser = __sum * std::exp(-__x + __a * std::log(__x) - __lngam);
+                _Tp __gamser = std::exp(-__x + __a * std::log(__x) - __lngam) * __sum;
                 return std::make_pair(__gamser, __lngam);
               }
           }
-        throw std::logic_error("__gamma_series: a too large, ITMAX too small in routine.");
+        throw std::logic_error("__gamma_series: a too large, itmax too small in routine.");
       }
   }
 
@@ -151,35 +151,36 @@ template<typename _Tp>
   std::pair<_Tp, _Tp>
   __gamma_cont_frac(_Tp __a, _Tp __x)
   {
-    const _Tp __eps = 3.0e-7;
-    const unsigned int __itmax = 100;
+    const _Tp __fpmin = 3.0 * std::numeric_limits<_Tp>::min();
+    const _Tp __eps = 3.0 * std::numeric_limits<_Tp>::epsilon();
+    const unsigned int __itmax = 10 * (10 + std::sqrt(std::abs(__a)));
 
     _Tp __lngam = std::lgamma(__a);
-    _Tp __a1 = __x, __b1(1);
-    _Tp __gprev(0), __fact(1);
-    _Tp __a0(1), __b0(0);
+
+    _Tp __b = __x + _Tp(1) - __a;
+    _Tp __c = _Tp(1) / __fpmin;
+    _Tp __d = _Tp(1) / __b;
+    _Tp __h = __d;
     for (unsigned int __n = 1; __n <= __itmax; ++__n)
       {
-        _Tp __xn(__n);
-        _Tp __xnma = __xn - __a;
-        __a0 = (__a1 + __a0 * __xnma) * __fact;
-        __b0 = (__b1 + __b0 * __xnma) * __fact;
-        _Tp __xnfact = __xn * __fact;
-        __a1 = __x * __a0 + __xnfact * __a1;
-        __b1 = __x * __b0 + __xnfact * __b1;
-        if (__a1 != _Tp(0))
+        _Tp __an = -_Tp(__n) * (_Tp(__n) - __a);
+        __b += _Tp(2);
+        __d = __an * __d + __b;
+        if (std::abs(__d) < __fpmin)
+          __d = __fpmin;
+        __c = __b + __an / __c;
+        if (std::abs(__c) < __fpmin)
+          __c = __fpmin;
+        __d = _Tp(1) / __d;
+        _Tp __del = __d * __c;
+        __h *= __del;
+        if (std::abs(__del - _Tp(1)) < __eps)
           {
-            __fact = _Tp(1) / __a1;
-            _Tp __g = __b1 * __fact;
-            if (std::abs(__g - __gprev) / __g < __eps)
-              {
-                _Tp __gamcf = std::exp(-__x + __a * std::log(__x) - __lngam) * __g;
-                return std::make_pair(__gamcf, __lngam);
-              }
-            __gprev = __g;
+            _Tp __gamcf = std::exp(-__x + __a * std::log(__x) - __lngam) * __h;
+            return std::make_pair(__gamcf, __lngam);
           }
       }
-    throw std::logic_error("__gamma_cont_fraction: a too large, ITMAX too small in routine.");
+    throw std::logic_error("__gamma_cont_fraction: a too large, itmax too small in routine.");
   }
 
 
@@ -208,6 +209,60 @@ template<typename _Tp>
       return _Tp(1) - __gamma_series(__a, __x).first;
     else
       return __gamma_cont_frac(__a, __x).first;
+  }
+
+
+/**
+ *   @brief  Return the lower incomplete gamma function.
+ *   The lower incomplete gamma function is defined by
+ *   @f[
+ *     \gamma(a,x) = \int_0^x e^{-t}t^{a-1}dt  (a > 0)
+ *   @f]
+ */
+template<typename _Tp>
+  _Tp
+  __gamma_l(_Tp __a, _Tp __x)
+  {
+    if (__x < 0.0 || __a <= 0.0)
+      throw std::domain_error("Invalid arguments in routine gamma_l()");
+
+    if (__x < __a + _Tp(1))
+    {
+      std::pair<_Tp, _Tp> __gp = __gamma_series(__a, __x);
+      return std::exp(__gp.second) * __gp.first;
+    }
+    else
+    {
+      std::pair<_Tp, _Tp> __gp = __gamma_cont_frac(__a, __x);
+      return std::exp(__gp.second) * (_Tp(1) - __gp.first);
+    }
+  }
+
+
+/**
+ *   @brief  Return the lower incomplete gamma function.
+ *   The lower incomplete gamma function is defined by
+ *   @f[
+ *     \gamma(a,x) = \int_0^x e^{-t}t^{a-1}dt  (a > 0)
+ *   @f]
+ */
+template<typename _Tp>
+  _Tp
+  __gamma_u(_Tp __a, _Tp __x)
+  {
+    if (__x < 0.0 || __a <= 0.0)
+      throw std::domain_error("Invalid arguments in routine gamma_u()");
+
+    if (__x < __a + _Tp(1))
+    {
+        std::pair<_Tp, _Tp> __gp = __gamma_series(__a, __x);
+        return std::exp(__gp.second) * (_Tp(1) - __gp.first);
+    }
+    else
+    {
+        std::pair<_Tp, _Tp> __gp = __gamma_cont_frac(__a, __x);
+        return std::exp(__gp.second) * __gp.first;
+    }
   }
 
 

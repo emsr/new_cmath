@@ -12,7 +12,7 @@ int
 main()
 {
     //  sinc
-    std::cout << std::endl << "sinc" << std::endl;
+    std::cout << std::endl << "x sinc" << std::endl;
     for (int i = 0; i <= 1000; ++i)
     {
         double x = 0.01 * (i - 500);
@@ -22,7 +22,7 @@ main()
     }
 
     //  logint
-    std::cout << std::endl << "logint" << std::endl;
+    std::cout << std::endl << "x logint" << std::endl;
     for (int i = 0; i <= 500; ++i)
     {
         double x = 0.01 * i;
@@ -31,7 +31,7 @@ main()
                   << std::endl;
     }
 ////  FAIL Past |2|
-    std::cout << std::endl << "cosint sinint" << std::endl;
+    std::cout << std::endl << "x cosint sinint" << std::endl;
     for (int i = 0; i <= 400; ++i)
     {
         double x = 0.01 * (i - 200);
@@ -42,7 +42,7 @@ main()
     }
 
     //  coshint sinhint
-    std::cout << std::endl << "coshint sinhint" << std::endl;
+    std::cout << std::endl << "x coshint sinhint" << std::endl;
     for (int i = 0; i <= 1000; ++i)
     {
         double x = 0.01 * (i - 500);
@@ -52,7 +52,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "jacobi" << std::endl;
+    std::cout << std::endl << "x jacobi_cn jacobi_sn jacobi_dn" << std::endl;
     for (int j = 0; j <= 5; ++j)
     {
         double k = j * 1.0;
@@ -68,7 +68,7 @@ main()
 	}
     }
 
-    std::cout << std::endl << "fresnel_c fresnel_s" << std::endl;
+    std::cout << std::endl << "x fresnel_c fresnel_s" << std::endl;
     for (int i = 0; i <= 1000; ++i)
     {
         double x = 0.01 * (i - 500);
@@ -78,7 +78,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "airy_ai airy_bi" << std::endl;
+    std::cout << std::endl << "x airy_ai airy_bi" << std::endl;
     for (int i = 0; i <= 1000; ++i)
     {
         double x = 0.01 * (i - 500);
@@ -88,7 +88,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "chebyshev_t" << std::endl;
+    std::cout << std::endl << "x chebyshev_t" << std::endl;
     for (int i = 0; i <= 200; ++i)
     {
         double x = 0.01 * (i - 100);
@@ -102,7 +102,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "chebyshev_u" << std::endl;
+    std::cout << std::endl << "x chebyshev_u" << std::endl;
     for (int i = 0; i <= 200; ++i)
     {
         double x = 0.01 * (i - 100);
@@ -116,7 +116,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "chebyshev_v" << std::endl;
+    std::cout << std::endl << "x chebyshev_v" << std::endl;
     for (int i = 0; i <= 200; ++i)
     {
         double x = 0.01 * (i - 100);
@@ -130,7 +130,7 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "chebyshev_w" << std::endl;
+    std::cout << std::endl << "x chebyshev_w" << std::endl;
     for (int i = 0; i <= 200; ++i)
     {
         double x = 0.01 * i;
@@ -144,78 +144,66 @@ main()
                   << std::endl;
     }
 
-    std::cout << std::endl << "gamma_u" << std::endl;
-    for (int j = 1; j <= 5; ++j)
+    std::cout << std::endl << "x gamma_u" << std::endl;
+    for (int i = 0; i <= 200; ++i)
     {
-        double a = j * 0.5;
-	std::cout << std::endl;
-	for (int i = 0; i <= 200; ++i)
-	{
-            double x = 0.01 * i;
-            std::cout << std::setw(12) << x
-                      << std::setw(12) << gamma_u(a, x)
-                      << std::setw(12) << gamma_u(a, x)
-                      << std::setw(12) << gamma_u(a, x)
-                      << std::endl;
+        double x = 0.01 * i;
+        std::cout << std::setw(12) << x;
+        for (int j = 1; j <= 5; ++j)
+        {
+            double a = j * 0.5;
+            std::cout << std::setw(12) << gamma_u(a, x);
 	}
+	std::cout << std::endl;
     }
 
-    std::cout << std::endl << "gamma_l" << std::endl;
-    for (int j = 1; j <= 5; ++j)
+    std::cout << std::endl << "x gamma_l" << std::endl;
+    for (int i = 0; i <= 200; ++i)
     {
-        double a = j * 0.5;
-	std::cout << std::endl;
-	for (int i = 0; i <= 200; ++i)
-	{
-            double x = 0.01 * (i - 100);
-            std::cout << std::setw(12) << x
-                      << std::setw(12) << gamma_l(a, x)
-                      << std::setw(12) << gamma_l(a, x)
-                      << std::setw(12) << gamma_l(a, x)
-                      << std::endl;
+        double x = 0.01 * i;
+        std::cout << std::setw(12) << x;
+        for (int j = 1; j <= 5; ++j)
+        {
+            double a = j * 0.5;
+            std::cout << std::setw(12) << gamma_l(a, x);
 	}
+	std::cout << std::endl;
     }
 
-    std::cout << std::endl << "pochhammer_u" << std::endl;
-    for (int j = 0; j <= 5; ++j)
+    std::cout << std::endl << "x pochhammer_u" << std::endl;
+    for (int i = 0; i <= 200; ++i)
     {
-        double a = j * 1.0;
-	std::cout << std::endl;
-	for (int i = 0; i <= 200; ++i)
-	{
-            double x = 0.01 * (i - 100);
-            std::cout << std::setw(12) << x
-                      << std::setw(12) << pochhammer_u(a, x)
-                      << std::setw(12) << pochhammer_u(a, x)
-                      << std::setw(12) << pochhammer_u(a, x)
-                      << std::endl;
+        double x = 0.01 * (i - 100);
+        std::cout << std::setw(12) << x;
+        for (int j = 0; j <= 5; ++j)
+        {
+            double a = j * 1.0;
+            std::cout << std::setw(12) << pochhammer_u(a, x);
 	}
+	std::cout << std::endl;
     }
 
-    std::cout << std::endl << "pochhammer_l" << std::endl;
-    for (int j = 0; j <= 5; ++j)
+    std::cout << std::endl << "x pochhammer_l" << std::endl;
+    for (int i = 0; i <= 200; ++i)
     {
-        double a = j * 1.0;
-	std::cout << std::endl;
-	for (int i = 0; i <= 200; ++i)
-	{
-            double x = 0.01 * (i - 100);
-            std::cout << std::setw(12) << x
-                      << std::setw(12) << pochhammer_l(a, x)
-                      << std::setw(12) << pochhammer_l(a, x)
-                      << std::setw(12) << pochhammer_l(a, x)
-                      << std::endl;
+        double x = 0.01 * (i - 100);
+        std::cout << std::setw(12) << x;
+        for (int j = 0; j <= 5; ++j)
+        {
+            double a = j * 1.0;
+            std::cout << std::setw(12) << pochhammer_l(a, x);
 	}
+	std::cout << std::endl;
     }
 
     std::cout << std::endl << "jacobi" << std::endl;
     for (int n = 0; n <= 5; ++n)
     {
-	std::cout << std::endl;
+	std::cout << "n=" << n << std::endl;
 	for (int k = 0; k <= 200; ++k)
 	{
             double x = 0.01 * (k - 100);
-            std::cout << std::endl;
+            //std::cout << std::endl;
             std::cout << std::setw(12) << x;
 	    for (int i = 0; i <= 3; ++i)
 	    {
@@ -223,9 +211,9 @@ main()
                 for (int j = 0; j <= 3; ++j)
                 {
                     double beta = j * 1.0;
-        	    std::cout << std::setw(12) << jacobi(n, alpha, beta, x)
-                	      << std::endl;
+        	    std::cout << std::setw(12) << jacobi(n, alpha, beta, x);
                 }
+                //std::cout << std::endl;
 	    }
             std::cout << std::endl;
 	}
@@ -234,11 +222,11 @@ main()
     std::cout << std::endl << "gegenbauer" << std::endl;
     for (int n = 0; n <= 5; ++n)
     {
-	std::cout << std::endl;
+	std::cout << "n=" << n << std::endl;
 	for (int k = 0; k <= 200; ++k)
 	{
             double x = 0.01 * (k - 100);
-            std::cout << std::endl;
+            //std::cout << std::endl;
             std::cout << std::setw(12) << x;
 	    for (int i = 0; i <= 3; ++i)
 	    {

@@ -335,18 +335,18 @@ using std::tr1::__detail::__bessel_ik;
 
   inline float
   gamma_uf(float __n, float __x)
-  { return __detail::__gamma_p<float>(__n, __x); }
+  { return __detail::__gamma_u<float>(__n, __x); }
 
   inline long double
   gamma_ul(long double __n, long double __x)
-  { return __detail::__gamma_p<long double>(__n, __x); }
+  { return __detail::__gamma_u<long double>(__n, __x); }
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
     gamma_u(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
-      return __detail::__gamma_p<__type>(__n, __x);
+      return __detail::__gamma_u<__type>(__n, __x);
     }
 
 
@@ -354,18 +354,18 @@ using std::tr1::__detail::__bessel_ik;
 
   inline float
   gamma_lf(float __n, float __x)
-  { return __detail::__gamma_q<float>(__n, __x); }
+  { return __detail::__gamma_l<float>(__n, __x); }
 
   inline long double
   gamma_ll(long double __n, long double __x)
-  { return __detail::__gamma_q<long double>(__n, __x); }
+  { return __detail::__gamma_l<long double>(__n, __x); }
 
   template<typename _Tn, typename _Tp>
     inline typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type
     gamma_l(_Tn __n, _Tp __x)
     {
       typedef typename __gnu_cxx::__promote_2<_Tn, _Tp>::__type __type;
-      return __detail::__gamma_q<__type>(__n, __x);
+      return __detail::__gamma_l<__type>(__n, __x);
     }
 
 
@@ -733,7 +733,7 @@ using std::tr1::__detail::__bessel_ik;
 
 
   //  factorial
-/*  unsigned args? template arg deduction?
+/*  FIXME!!! - need impl
   inline float
   factorialf(float __x)
   { return __detail::__factorial<float>(__x); }
@@ -752,7 +752,7 @@ using std::tr1::__detail::__bessel_ik;
 */
 
   //  double factorial
-/*  unsigned args? template arg deduction?
+/*  FIXME!!! - need impl
   inline float
   double_factorialf(float __x)
   { return __detail::__double_factorial<float>(__x); }

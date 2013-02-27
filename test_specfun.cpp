@@ -236,5 +236,27 @@ main()
             std::cout << std::endl;
 	}
     }
+
+    std::cout << std::endl << "zernike" << std::endl;
+    for (int n = 0; n <= 3; ++n)
+    {
+	std::cout << "n=" << n << std::endl;
+        for (int m = -n; m <= n; ++m)
+        {
+	    std::cout << "m=" << m << std::endl;
+	    for (int k = 0; k <= 20; ++k)
+	    {
+        	double rho = 0.05 * k;
+        	//std::cout << std::endl;
+        	std::cout << std::setw(12) << rho;
+		for (int i = 0; i <= 36; ++i)
+		{
+                    double phi = i * 3.141592654 / 180.0;
+        	    std::cout << std::setw(12) << zernike(n, m, rho, phi);
+		}
+        	std::cout << std::endl;
+	    }
+        }
+    }
 }
 

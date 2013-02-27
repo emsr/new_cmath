@@ -73,7 +73,7 @@ template<typename _Tp>
   __poly_radial_jacobi(unsigned int __n, unsigned int __m, _Tp __rho)
   {
     if (__m > __n)
-      throw std::range_error("__poly_radial_jacobi");
+      throw std::range_error("__poly_radial_jacobi: m > n");
     else if ((__n - __m) % 2 == 1)
       return _Tp(0);
     else

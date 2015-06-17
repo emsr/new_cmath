@@ -398,6 +398,16 @@ template<typename _Tp>
   }
 
 
+
+
+///
+///  @brief This routine returns the hyperbolic cosine integral @f$ Chi(x) @f$.
+///
+///  The hyperbolic cosine integral is defined by:
+///  @f[
+///      Chi(x) = \gamma_E + \log(x) + \int_0^x dt \frac{\cosh(t) - 1}{t}
+///  @f]
+///
 template<typename _Tp>
   _Tp
   __coshint(const _Tp __x)
@@ -405,23 +415,72 @@ template<typename _Tp>
     if (__isnan(__x))
       return std::numeric_limits<_Tp>::quiet_NaN();
     else if (__x == _Tp(0))
-      return _Tp(0);
+      return -std::numeric_limits<_Tp>::infinity();
     else
       return (std::tr1::__detail::__expint_Ei(__x)
             - std::tr1::__detail::__expint_E1(__x)) / _Tp(2);
   }
 
 
+
+
+///
+///  @brief This routine returns the hyperbolic sine integral @f$ Shi(x) @f$.
+///
+///  The hyperbolic sine integral is defined by:
+///  @f[
+///      Shi(x) = \int_0^x dt \frac{\sinh(t)}{t}
+///  @f]
+///
 template<typename _Tp>
   _Tp
   __sinhint(const _Tp __x)
   {
     if (__isnan(__x))
       return std::numeric_limits<_Tp>::quiet_NaN();
+    else if (__x == _Tp(0))
+      return _Tp(0);
     else
       return (std::tr1::__detail::__expint_Ei(__x)
             + std::tr1::__detail::__expint_E1(__x)) / _Tp(2);
   }
+
+
+///
+///  @brief This routine returns the hyperbolic cosine @f$ Chi(x) @f$
+///         and hyperbolic sine @f$ Shi(x) @f$ integrals as a pair.
+///
+///  The hyperbolic cosine integral is defined by:
+///  @f[
+///      Chi(x) = \gamma_E + \log(x) + \int_0^x dt \frac{\cosh(t) - 1}{t}
+///  @f]
+///
+///  The hyperbolic sine integral is defined by:
+///  @f[
+///      Shi(x) = \int_0^x dt \frac{\sinh(t)}{t}
+///  @f]
+///
+template<typename _Tp>
+  std::pair<_Tp, _Tp>
+  __chshint(_Tp __x)
+  {
+    _Tp __t = std::abs(__x);
+    _Tp __chi, __shi;
+    if (__t == _Tp(0))
+      {
+        __chi = -std::numeric_limits<_Tp>::infinity();
+        __shi = _Tp(0);
+      }
+    else
+      {
+	_Tp __Ei = std::tr1::__detail::__expint_Ei(__x);
+	_Tp __E1 = std::tr1::__detail::__expint_E1(__x);
+	__chi = (__Ei - __E1) / _Tp(2);
+	__shi = (__Ei + __E1) / _Tp(2);
+      }
+
+    return std::make_pair(__chi, __shi);
+}
 
 
 } // namespace __detail

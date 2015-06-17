@@ -69,7 +69,8 @@ template<typename _Tp>
         if (std::abs(__del.real() - _Tp(1)) + std::abs(__del.imag()) < __eps)
           break;
         if (i > __max_iter)
-          throw std::logic_error("Continued fraction evaluation failed in __chishi.");
+          throw std::logic_error("Continued fraction evaluation failed "
+				 "in __chishi.");
         ++i;
       }
     __h *= std::polar(_Tp(1), -__t);
@@ -104,9 +105,6 @@ template<typename _Tp>
       }
     else
       {
-        /*
-         *    Evaluate Shi and Chi by series expansion.
-         */
         _Tp __sum(0);
         _Tp __fact(1);
         bool __odd = true;

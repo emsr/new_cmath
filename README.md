@@ -1,5 +1,5 @@
 
-This project is deprecated.
+**Note: This project is deprecated**
 
 The true guts of this work and much more is hosted in the tr29124_test repo: https://github.com/emsr/tr29124_test
 
